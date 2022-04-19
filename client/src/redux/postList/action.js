@@ -87,6 +87,7 @@ export const showPostDetail = (id) => {
   return (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_URL}/contents/${id}`, { withCredentials: true })
     .then(post => {
+      console.log('action',post)
       if(post.status === 200){
         dispatch(showPostDetailSuccess(post))
       }else {
@@ -136,12 +137,11 @@ export const editPostClosed = (id,data)=> {
 }
 
 // 글 신청
-export const editPostRecruitment = (id, roomName, nickname, categoryFood)=> {
-  
+export const editPostRecruitment = (personal ,id, roomName, nickname, categoryFood)=> {
   socket.emit('joinRoom', ({ id, nickname, roomName, categoryFood }));
 
   return (dispatch) => {
-    axios.post(`${process.env.REACT_APP_API_URL}/orders/${id}`,{},{withCredentials: true})
+    axios.post(`${process.env.REACT_APP_API_URL}/orders/${id}`,{recruitment_personnel:personal},{withCredentials: true})
     .then(post => {
       if(post.status === 200){
         dispatch(showPostRecruitmentSuccess())
